@@ -1,23 +1,19 @@
 #include "general_settings.h"
 using namespace std;
 
-vector<SingleCard *> yama; // 山札
-vector<SingleCard *> te_1; // 手札_1
-vector<SingleCard *> te_2; // 手札_2
-vector<SingleCard *> yaku_table_1;   // 役札_1 
-vector<SingleCard *> yaku_table_2;   // 役札_2
-vector<SingleCard *> ba;   // 場札
-bool oya; // 親
-int Point_1;
-int Point_2;
+vector<int> points;
 
+void new_match(bool oya, int Point_1, int Point_2){
+	vector<int> yama(48, false); // 山札
+	vector<int> te_1(48, false); // 手札_1
+	vector<int> te_2(48, false); // 手札_2
+	vector<int> yaku_table_1(48, false); // 役札_1 
+	vector<int> yaku_table_2(48, false); // 役札_2
+	vector<int> ba(48, false); // 場札
 
-void new_match(){
+    init_cards(yama, te_1 ,te_2, yaku_table_1, yaku_table_2, ba);
+    deal_cards(yama, te_1 ,te_2, yaku_table_1, yaku_table_2, ba);
 
-	reshuffle(te_1, te_2, yaku_table_1, yaku_table_2, ba, yama);
-	move_top(yama, te_1, 8);
-	move_top(yama, te_2, 8);
-	move_top(yama, ba, 8);
 	int step = 0;
 	bool order = oya;
 	bool end_game = false;
@@ -33,29 +29,47 @@ void new_match(){
 		if(order == PLAYER_1){
 			end_game = player_1_AI();
 			if(end_game){
-				Point_1 += yaku_calculate();
-				oya = PLAYER_1;
+				int tmp = yaku_calculate(yaku_table_1);
+				if(tmp exists){
+					Point_1 += tmp;
+					oya = PLAYER_1;
+				}else{
+					// penalty
+					Point_2 += 6;
+					oya = PLAYER_2;
+				}
 				break;
+			}else{
+				koi_koi(yaku_table_1);
 			}
 		}else{
 			end_game = player_2_AI();
 			if(end_game){
-				Point_2 += yaku_calculate();
-				oya = PLAYER_2;
+				int tmp = yaku_calculate(yaku_table_2);
+				if(tmp exists){
+					Point_2 += tmp;
+					oya = PLAYER_2;
+				}else{
+					// penalty
+					Point_1 += 6;
+					oya = PLAYER_1;
+				}
 				break;
+			}else{
+				koi_koi(yaku_table_2);
 			}
 		}
 		order = !order;
 	}
 }
 
-
 void game(){
-	oya = PLAYER_1;
-	Point_1 = 10;
-	Point_2 = 10;
-    init_cards();
-	new_match();
+
+	init_rules();
+	bool oya = PLAYER_1; // 親
+	int Point_1 = 10;
+	int Point_2 = 10;
+	new_match(oya, Point_1, Point_2);
 
 
 }

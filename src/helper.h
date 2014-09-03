@@ -3,13 +3,16 @@
 
 using namespace std;
 
-void move_top(vector<SingleCard*> &, vector<SingleCard*> &, int);
+void init_rules();
 
-void move(vector<SingleCard*> &, vector<SingleCard*> &, int, int);
+void init_cards(vector<int>&, vector<int>& ,vector<int>&,
+                vector<int>&, vector<int>&, vector<int>&);
 
-void reshuffle(	vector<SingleCard*> &,
-				vector<SingleCard*> &, 
-				vector<SingleCard*> &, 
-				vector<SingleCard*> &, 
-				vector<SingleCard*> &, 
-				vector<SingleCard*> &);
+void deal_cards(vector<int>&, vector<int>& ,vector<int>&,
+                vector<int>&, vector<int>&, vector<int>&);
+
+void random_move(vector<int>&, vector<int>&, int);
+
+int card_amount(vector<int>&);
+
+void koi_koi(vector<int>&);
