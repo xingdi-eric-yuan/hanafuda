@@ -4,13 +4,13 @@ using namespace std;
 
 vector<int> points;
 
-void new_match(bool oya, int Point_1, int Point_2){
-	vector<int> yama(48, false); // 山札
-	vector<int> te_1(48, false); // 手札_1
-	vector<int> te_2(48, false); // 手札_2
-	vector<int> yaku_table_1(48, false); // 役札_1 
-	vector<int> yaku_table_2(48, false); // 役札_2
-	vector<int> ba(48, false); // 場札
+void new_match(bool oya, int &Point_1, int &Point_2){
+	vector<int> yama(48, 0); // 山札
+	vector<int> te_1(48, 0); // 手札_1
+	vector<int> te_2(48, 0); // 手札_2
+	vector<int> yaku_table_1(48, 0); // 役札_1 
+	vector<int> yaku_table_2(48, 0); // 役札_2
+	vector<int> ba(48, 0); // 場札
 
     init_cards(yama, te_1 ,te_2, yaku_table_1, yaku_table_2, ba);
     deal_cards(yama, te_1 ,te_2, yaku_table_1, yaku_table_2, ba);
@@ -22,19 +22,18 @@ void new_match(bool oya, int Point_1, int Point_2){
 	int p2 = 0;
 	int cache = 0;
 	// use two AIs in turn.
-
 //	int test = ai1::dosomething(yama);
 //	cout<<test<<endl;
 	
 	while(1){
-		if(te_1.empty() && te_2.empty()){ // Oya-Ken
+		if(card_amount(te_1) == 0 || card_amount(te_2) == 0){ // Oya-Ken
 			if(oya) Point_1 += 6;
 			else Point_2 += 6;
 			break;
 		}
 		if(order == PLAYER_1){
-
-			int which = ai1::move_1(te_1, yaku_table_1, yaku_table_2, ba);
+			ai1 ai;
+			int which = ai.move_1(te_1, yaku_table_1, yaku_table_2, ba);
 			set_zero(te_1, which);
 			vector<int> same = find_same_month(which, ba);
 			if(same.empty()){
@@ -44,7 +43,7 @@ void new_match(bool oya, int Point_1, int Point_2){
 				set_zero(ba, same[0]);
 				set_two(yaku_table_1, same[0]);
 			}else{
-				int which2 = ai1::move_2(te_1, yaku_table_1, yaku_table_2, ba, which, same);
+				int which2 = ai.move_2(te_1, yaku_table_1, yaku_table_2, ba, which, same);
 				set_two(yaku_table_1, which);
 				set_zero(ba, which2);
 				set_two(yaku_table_1, which2);
@@ -60,29 +59,33 @@ void new_match(bool oya, int Point_1, int Point_2){
 				set_zero(ba, same[0]);
 				set_two(yaku_table_1, same[0]);
 			}else{
-				int which2 = ai1::move_2(te_1, yaku_table_1, yaku_table_2, ba, cache, same);
+				int which2 = ai.move_2(te_1, yaku_table_1, yaku_table_2, ba, cache, same);
 				set_two(yaku_table_1, cache);
 				set_zero(ba, which2);
 				set_two(yaku_table_1, which2);
 			}
-			end_game = ai1::move_3(te_1, yaku_table_1, yaku_table_2, ba);
-			if(end_game){
-				int tmp = yaku_calculate(yaku_table_1);
-				if(tmp exists){
+			int tmp = yaku_calculate(yaku_table_1);
+			/*
+			cout<<"step = "<<step<<", yaku_1 = "<<tmp<<endl;
+			if(tmp exists){
+				for(int j = 0; j < yaku_table_1.size(); j++){
+					if(yaku_table_1[j] exists) cout<<"    yaku: "<<j<<endl;
+				}
+			}
+			*/
+			if(tmp exists){
+				end_game = ai.move_3(te_1, yaku_table_1, yaku_table_2, ba);	
+				if(end_game){
 					Point_1 += tmp;
 					oya = PLAYER_1;
+					break;
 				}else{
-					// penalty
-					Point_2 += 6;
-					oya = PLAYER_2;
+					koi_koi(yaku_table_1);
 				}
-				break;
-			}else{
-				koi_koi(yaku_table_1);
 			}
 		}else{
-
-			int which = ai1::move_1(te_2, yaku_table_2, yaku_table_1, ba);
+			ai1 ai;
+			int which = ai.move_1(te_2, yaku_table_2, yaku_table_1, ba);
 			set_zero(te_2, which);
 			vector<int> same = find_same_month(which, ba);
 			if(same.empty()){
@@ -92,7 +95,7 @@ void new_match(bool oya, int Point_1, int Point_2){
 				set_zero(ba, same[0]);
 				set_two(yaku_table_2, same[0]);
 			}else{
-				int which2 = ai1::move_2(te_2, yaku_table_2, yaku_table_1, ba, which, same);
+				int which2 = ai.move_2(te_2, yaku_table_2, yaku_table_1, ba, which, same);
 				set_two(yaku_table_2, which);
 				set_zero(ba, which2);
 				set_two(yaku_table_2, which2);
@@ -108,31 +111,35 @@ void new_match(bool oya, int Point_1, int Point_2){
 				set_zero(ba, same[0]);
 				set_two(yaku_table_2, same[0]);
 			}else{
-				int which2 = ai1::move_2(te_2, yaku_table_2, yaku_table_1, ba, cache, same);
+				int which2 = ai.move_2(te_2, yaku_table_2, yaku_table_1, ba, cache, same);
 				set_two(yaku_table_2, cache);
 				set_zero(ba, which2);
 				set_two(yaku_table_2, which2);
 			}
-			end_game = ai1::move_3(te_2, yaku_table_2, yaku_table_1, ba);
-
-			if(end_game){
-				int tmp = yaku_calculate(yaku_table_2);
-				if(tmp exists){
+			int tmp = yaku_calculate(yaku_table_2);
+			/*
+			cout<<"step = "<<step<<", yaku_2 = "<<tmp<<endl;
+			if(tmp exists){
+				for(int j = 0; j < yaku_table_2.size(); j++){
+					if(yaku_table_2[j] exists) cout<<"    yaku: "<<j<<endl;
+				}
+			}
+			*/
+			if(tmp exists){
+				end_game = ai.move_3(te_2, yaku_table_2, yaku_table_1, ba);	
+				if(end_game){
 					Point_2 += tmp;
 					oya = PLAYER_2;
+					break;
 				}else{
-					// penalty
-					Point_1 += 6;
-					oya = PLAYER_1;
+					koi_koi(yaku_table_2);
 				}
-				break;
-			}else{
-				koi_koi(yaku_table_2);
 			}
 		}
+
 		order = !order;
+		++step;
 	}
-	
 }
 
 void game(){
@@ -143,6 +150,7 @@ void game(){
 	int Point_2 = 10;
 	new_match(oya, Point_1, Point_2);
 
+	cout<<"end game, p1 = "<<Point_1<<", p2 = "<<Point_2<<endl;
 
 }
 

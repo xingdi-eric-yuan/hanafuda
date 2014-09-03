@@ -6,7 +6,6 @@ int yaku_calculate(vector<int>& vec){
 
 	int res = 0;
 	bool flag = false;
-
 	if(is_goko(vec, flag) exists) res += 10;
 	elif(is_shiko(vec, flag) exists) res += 8;
 	elif(is_ame_shiko(vec, flag) exists) res += 7;
@@ -20,7 +19,6 @@ int yaku_calculate(vector<int>& vec){
 	res += is_akatan(vec, flag);
 	res += is_hanami_de_ippai(vec, flag);
 	res += is_tsukimi_de_ippai(vec, flag);
-
 	if(!flag) return 0;
 	else return res;
 }
@@ -38,7 +36,6 @@ int is_goko(vector<int>& vec, bool &flag){
 			vec[SUSUKI_NI_TSUKI] is_new ||
 			vec[YANAGI_NI_ONO_NO_MICHIKAZE] is_new ||
 			vec[KIRI_NI_HOUOU] is_new) flag = true;
-		cout<<"goko !!!"<<endl;
 		return 10;
 	}
 	else return 0;
@@ -55,7 +52,6 @@ int is_shiko(vector<int>& vec, bool &flag){
 			vec[SAKURA_NI_MAKU] is_new ||
 			vec[SUSUKI_NI_TSUKI] is_new ||
 			vec[KIRI_NI_HOUOU] is_new) flag = true;
-		cout<<"shiko !!!"<<endl;
 		return 8;
 	}
 	else return 0;
@@ -74,7 +70,6 @@ int is_ame_shiko(vector<int>& vec, bool &flag){
 				vec[SAKURA_NI_MAKU] is_new ||
 				vec[SUSUKI_NI_TSUKI] is_new ||
 				vec[KIRI_NI_HOUOU] is_new) flag = true;
-		cout<<"ame shiko !!!"<<endl;
 			return 7;
 		}
 		else return 0;
@@ -96,7 +91,6 @@ int is_sanko(vector<int>& vec, bool &flag){
 				vec[SAKURA_NI_MAKU] is_new ||
 				vec[SUSUKI_NI_TSUKI] is_new ||
 				vec[KIRI_NI_HOUOU] is_new) flag = true;
-		cout<<"sanko !!!"<<endl;
 			return 5;
 		}
 		else return 0;
@@ -112,7 +106,6 @@ int is_ino_shika_cho(vector<int>& vec, bool &flag){
 		if( vec[BOTAN_NI_CHO] is_new ||
 			vec[HAGI_NI_INOSHISHI] is_new ||
 			vec[MOMIJI_NI_SHIKA] is_new) flag = true;
-		cout<<"ino shika cho !!!"<<endl;
 		return 5;
 	}
 	else return 0;
@@ -129,7 +122,6 @@ int is_tane(vector<int>& vec, bool &flag){
 		for(int i = 0; i < vec.size(); i++){
 			if(vec[i] is_new && points[i] == 10) flag = true;
 		}
-		cout<<"tane !!!"<<endl;
 		return count - 5 + 1;	
 	}
 }
@@ -145,7 +137,6 @@ int is_tanzaku(vector<int>& vec, bool &flag){
 		for(int i = 0; i < vec.size(); i++){
 			if(vec[i] is_new && points[i] == 5) flag = true;
 		}
-		cout<<"tanzaku !!!"<<endl;
 		return count - 5 + 1;	
 	}
 }
@@ -161,7 +152,6 @@ int is_kasu(vector<int>& vec, bool &flag){
 		for(int i = 0; i < vec.size(); i++){
 			if(vec[i] is_new && points[i] == 1) flag = true;
 		}
-		cout<<"kasu !!!"<<endl;
 		return count - 10 + 1;	
 	}
 }
@@ -174,7 +164,6 @@ int is_aotan(vector<int>& vec, bool &flag){
 		if( vec[BOTAN_NI_AOTAN] is_new ||
 			vec[KIKU_NI_AOTAN] is_new ||
 			vec[MOMIJI_NI_AOTAN] is_new) flag = true;
-		cout<<"aotan !!!"<<endl;
 		return 5;
 	}
 	else return 0;
@@ -188,7 +177,6 @@ int is_akatan(vector<int>& vec, bool &flag){
 		if( vec[MATSU_NI_AKATAN] is_new ||
 			vec[UME_NI_AKATAN] is_new ||
 			vec[SAKURA_NI_AKATAN] is_new) flag = true;
-		cout<<"akatan !!!"<<endl;
 		return 5;
 	}
 	else return 0;
@@ -200,7 +188,6 @@ int is_hanami_de_ippai(vector<int>& vec, bool &flag){
 		vec[KIKU_NI_SAKAZUKI] exists){
 		if( vec[SAKURA_NI_MAKU] is_new ||
 			vec[KIKU_NI_SAKAZUKI] is_new) flag = true;
-		cout<<"hanami de ippai !!!"<<endl;
 		return 5;
 	}
 	else return 0;
@@ -212,7 +199,6 @@ int is_tsukimi_de_ippai(vector<int>& vec, bool &flag){
 		vec[KIKU_NI_SAKAZUKI] exists){
 		if( vec[SUSUKI_NI_TSUKI] is_new ||
 			vec[KIKU_NI_SAKAZUKI] is_new) flag = true;
-		cout<<"tsukimi de ippai !!!"<<endl;
 		return 5;
 	}
 	else return 0;
