@@ -20,6 +20,7 @@ void new_match(bool oya, int Point_1, int Point_2){
 	bool end_game = false;
 	int p1 = 0;
 	int p2 = 0;
+	int cache = 0;
 	// use two AIs in turn.
 
 //	int test = ai1::dosomething(yama);
@@ -33,8 +34,38 @@ void new_match(bool oya, int Point_1, int Point_2){
 		}
 		if(order == PLAYER_1){
 
-			end_game = player_1_AI();
-
+			int which = ai1::move_1(te_1, yaku_table_1, yaku_table_2, ba);
+			set_zero(te_1, which);
+			vector<int> same = find_same_month(which, ba);
+			if(same.empty()){
+				set_one(ba, which);
+			}elif(same.size() == 1){
+				set_two(yaku_table_1, which);
+				set_zero(ba, same[0]);
+				set_two(yaku_table_1, same[0]);
+			}else{
+				int which2 = ai1::move_2(te_1, yaku_table_1, yaku_table_2, ba, which, same);
+				set_two(yaku_table_1, which);
+				set_zero(ba, which2);
+				set_two(yaku_table_1, which2);
+			}
+			same.clear();
+			cache = random_choose(yama);
+			same = find_same_month(cache, ba);
+			set_zero(yama, cache);
+			if(same.empty()){
+				set_one(ba, cache);
+			}elif(same.size() == 1){
+				set_two(yaku_table_1, cache);
+				set_zero(ba, same[0]);
+				set_two(yaku_table_1, same[0]);
+			}else{
+				int which2 = ai1::move_2(te_1, yaku_table_1, yaku_table_2, ba, cache, same);
+				set_two(yaku_table_1, cache);
+				set_zero(ba, which2);
+				set_two(yaku_table_1, which2);
+			}
+			end_game = ai1::move_3(te_1, yaku_table_1, yaku_table_2, ba);
 			if(end_game){
 				int tmp = yaku_calculate(yaku_table_1);
 				if(tmp exists){
@@ -50,7 +81,40 @@ void new_match(bool oya, int Point_1, int Point_2){
 				koi_koi(yaku_table_1);
 			}
 		}else{
-			end_game = player_2_AI();
+
+			int which = ai1::move_1(te_2, yaku_table_2, yaku_table_1, ba);
+			set_zero(te_2, which);
+			vector<int> same = find_same_month(which, ba);
+			if(same.empty()){
+				set_one(ba, which);
+			}elif(same.size() == 1){
+				set_two(yaku_table_2, which);
+				set_zero(ba, same[0]);
+				set_two(yaku_table_2, same[0]);
+			}else{
+				int which2 = ai1::move_2(te_2, yaku_table_2, yaku_table_1, ba, which, same);
+				set_two(yaku_table_2, which);
+				set_zero(ba, which2);
+				set_two(yaku_table_2, which2);
+			}
+			same.clear();
+			cache = random_choose(yama);
+			same = find_same_month(cache, ba);
+			set_zero(yama, cache);
+			if(same.empty()){
+				set_one(ba, cache);
+			}elif(same.size() == 1){
+				set_two(yaku_table_2, cache);
+				set_zero(ba, same[0]);
+				set_two(yaku_table_2, same[0]);
+			}else{
+				int which2 = ai1::move_2(te_2, yaku_table_2, yaku_table_1, ba, cache, same);
+				set_two(yaku_table_2, cache);
+				set_zero(ba, which2);
+				set_two(yaku_table_2, which2);
+			}
+			end_game = ai1::move_3(te_2, yaku_table_2, yaku_table_1, ba);
+
 			if(end_game){
 				int tmp = yaku_calculate(yaku_table_2);
 				if(tmp exists){

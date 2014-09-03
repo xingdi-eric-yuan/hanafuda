@@ -59,6 +59,13 @@ void deal_cards(vector<int>& yama, vector<int>& te_1 ,vector<int>& te_2,
 	random_move(yama, ba, 8);
 }
 
+void move(vector<int>& _from, vector<int>& _to, int which){
+	if(_from[which] exists){
+		_to[which] = 1;
+		_from[which] = 0;
+	}
+}
+
 void random_move(vector<int>& _from, vector<int>& _to, int amount){
 	if(card_amount(_from) < amount) return;
 	for(int i = 0; i < amount; i++){
@@ -68,6 +75,42 @@ void random_move(vector<int>& _from, vector<int>& _to, int amount){
         	_to[randomNum] = 1;
         }else --i;
 	}
+}
+
+void random_move(vector<int>& _from, vector<int>& _to){
+	if(card_amount(_from) < 1) return;
+	while(1){
+        int randomNum = ((long)rand() + (long)rand()) % _from.size();
+        if(_from[randomNum != 0]){
+        	_from[randomNum] = 0;
+        	_to[randomNum] = 1;
+        	break;
+        }
+	}
+}
+
+int random_choose(vector<int>& _from){
+	int res = -1;
+	if(card_amount(_from) < 1) return res;
+	while(1){
+        int randomNum = ((long)rand() + (long)rand()) % _from.size();
+        if(_from[randomNum != 0]){
+        	res = randomNum;
+        	break;
+        }
+	}
+}
+
+void set_zero(vector<int>& vec, int which){
+	vec[which] = 0;
+}
+
+void set_one(vector<int>& vec, int which){
+	vec[which] = 1;
+}
+
+void set_two(vector<int>& vec, int which){
+	vec[which] = 2;
 }
 
 int card_amount(vector<int>& vec){
@@ -83,6 +126,40 @@ void koi_koi(vector<int>& vec){
 		if(vec[i] != 0) vec[i] = 1;
 	}
 }
+
+bool is_same_month(int a, int b){
+	if(a / 4 == b / 4) return true;
+	else return false;
+}
+
+vector<int> find_same_month(int a, vector<int>& vec){
+	vector<int> res;
+	for(int i = 0; i < vec.size(); i++){
+		if(is_same_month(a, vec[i])){
+			res.push_back(vec[i]);
+		}
+	}
+	return res;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

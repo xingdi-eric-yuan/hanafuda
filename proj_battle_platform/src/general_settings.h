@@ -6,8 +6,6 @@
 #include "romaji.h"
 #include "helper.h"
 #include "yaku_calculate.h"
-#include "PLAYER_1_AI.h"
-#include "PLAYER_2_AI.h"
 
 #define elif else if
 #define PLAYER_1 true
