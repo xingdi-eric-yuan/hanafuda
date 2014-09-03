@@ -1,17 +1,31 @@
 #Hanafuda
 =====================
 
-An exercise of using AI algorithm/ unordered_map / c++.
+An exercise of using AI algorithm / c++.
 I'm learning to play hanafuda now...
+Just simple Koi-Koi (2-player version).
+*NOT FINISHED*
 
-##Compile & Run
+##Rules
+See the [official wiki](http://ja.wikipedia.org/wiki/%E8%8A%B1%E6%9C%AD) for rules.
+
+##Battle Platform
+
+###Compile & Run
 
 * Compile: "cmake CMakeLists.txt" and then "make" 
  
 * Run: "./hanafuda" 
 
-##Rules
-See the [official wiki](http://ja.wikipedia.org/wiki/%E8%8A%B1%E6%9C%AD) for rules.
+* You should compile the AI first, then put **header files** and **lib files** into the "/ai", as shown in demo.
+
+##AI
+
+###Compile
+
+* Compile: "cmake CMakeLists.txt" and then "make" 
+
+* It will generate a **.dylib** file by compiling, put this file (and all header files you use) into the certain path in battle platform.
 
 The MIT License (MIT)
 ------------------

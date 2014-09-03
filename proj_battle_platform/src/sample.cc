@@ -1,4 +1,5 @@
 #include "general_settings.h"
+#include "../ai/ai1/header/ai.h"
 using namespace std;
 
 vector<int> points;
@@ -20,6 +21,10 @@ void new_match(bool oya, int Point_1, int Point_2){
 	int p1 = 0;
 	int p2 = 0;
 	// use two AIs in turn.
+
+//	int test = ai1::dosomething(yama);
+//	cout<<test<<endl;
+	
 	while(1){
 		if(te_1.empty() && te_2.empty()){ // Oya-Ken
 			if(oya) Point_1 += 6;
@@ -27,7 +32,9 @@ void new_match(bool oya, int Point_1, int Point_2){
 			break;
 		}
 		if(order == PLAYER_1){
+
 			end_game = player_1_AI();
+
 			if(end_game){
 				int tmp = yaku_calculate(yaku_table_1);
 				if(tmp exists){
@@ -61,6 +68,7 @@ void new_match(bool oya, int Point_1, int Point_2){
 		}
 		order = !order;
 	}
+	
 }
 
 void game(){
