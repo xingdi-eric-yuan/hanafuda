@@ -53,21 +53,9 @@ void init_cards(vector<int>& yama, vector<int>& te_1 ,vector<int>& te_2,
 
 void deal_cards(vector<int>& yama, vector<int>& te_1 ,vector<int>& te_2,
                 vector<int>& yaku_table_1, vector<int>& yaku_table_2, vector<int>& ba){
-
-		cout<<"11++----size yama = "<<card_amount(yama)<<endl;
-		cout<<"11++----size te_1 = "<<card_amount(te_1)<<endl;
 	random_move(yama, te_1, 8);
-
-		cout<<"11++----size yama = "<<card_amount(yama)<<endl;
-		cout<<"11++----size te_1 = "<<card_amount(te_1)<<endl;
-		cout<<"22++----size te_2 = "<<card_amount(te_2)<<endl;
 	random_move(yama, te_2, 8);
-
-		cout<<"++----size yama = "<<card_amount(yama)<<endl;
-		cout<<"22++----size te_2 = "<<card_amount(te_2)<<endl;
 	random_move(yama, ba, 8);
-
-		cout<<"++----size yama = "<<card_amount(yama)<<endl;
 }
 
 void move(vector<int>& _from, vector<int>& _to, int which){

@@ -3,7 +3,7 @@
 using namespace std;
 
 
-vector<int> points;
+card_vec points;
 
 ai1::ai1(){
 	init_rules();
@@ -13,27 +13,27 @@ ai1::~ai1(){
 
 }
 
-int ai1::dosomething(vector<int> vec){
+int ai1::dosomething(card_vec vec){
 	return vec.size();
 }
 
-int ai1::move_1(vector<int> te, vector<int> yaku_table_mine, vector<int> yaku_table_enemy, vector<int> ba){
+int ai1::move_1(card_vec te, card_vec yaku_table_mine, card_vec yaku_table_enemy, card_vec ba){
 	//return 0;
 
 	//init_rules();
 	double _max_eval = -10000;
 	int _which_max = 0;
 
-	vector<int> _te;
-	vector<int> _yaku_mine;
-	vector<int> _ba;
+	card_vec _te;
+	card_vec _yaku_mine;
+	card_vec _ba;
 	for(int i = 0; i < te.size(); i++){
 		if(te[i] exists){
 			_te = te;
 			_yaku_mine = yaku_table_mine;
 			_ba = ba;
 			set_zero(_te, i);
-			vector<int> same = find_same_month(i, _ba);
+			card_vec same = find_same_month(i, _ba);
 //			cout<<i<<", there are "<<same.size()<<" same months"<<endl;
 //			for(int j = 0; j < same.size(); j++){
 //				cout<<same[j]<<endl;
@@ -65,15 +65,15 @@ int ai1::move_1(vector<int> te, vector<int> yaku_table_mine, vector<int> yaku_ta
 	}
 	return _which_max;
 }
-int ai1::move_2(vector<int> te, vector<int> yaku_table_mine, vector<int> yaku_table_enemy, vector<int> ba, int newcard, vector<int> same){
+int ai1::move_2(card_vec te, card_vec yaku_table_mine, card_vec yaku_table_enemy, card_vec ba, int newcard, card_vec same){
 	//return 0;
 	//init_rules();
 	double _max_eval = -10000;
 	int _which_max = 0;
 
-	vector<int> _te;
-	vector<int> _yaku_mine;
-	vector<int> _ba;
+	card_vec _te;
+	card_vec _yaku_mine;
+	card_vec _ba;
 	for(int i = 0; i < same.size(); i++){
 		_te = te;
 		_yaku_mine = yaku_table_mine;
@@ -96,7 +96,7 @@ int ai1::move_2(vector<int> te, vector<int> yaku_table_mine, vector<int> yaku_ta
 
 	return _which_max;
 }
-bool ai1::move_3(vector<int> te, vector<int> yaku_table_mine, vector<int> yaku_table_enemy, vector<int> ba){
+bool ai1::move_3(card_vec te, card_vec yaku_table_mine, card_vec yaku_table_enemy, card_vec ba){
 	//return true;
 
 	return false;
@@ -106,9 +106,25 @@ bool ai1::move_3(vector<int> te, vector<int> yaku_table_mine, vector<int> yaku_t
 
 }
 
-double ai1::evaluation(vector<int> te, vector<int> yaku_table_mine, vector<int> yaku_table_enemy, vector<int> ba){
+double ai1::evaluation(card_vec &te, card_vec &yaku_table_mine, card_vec &yaku_table_enemy, card_vec &ba){
 
-	return (double)yaku_calculate(yaku_table_mine);
+	card_vec yama_enemy_te = get_yama_enemy_te(te, yaku_table_mine, yaku_table_enemy, ba);
+
+	double eval = 0.0;
+	eval += do_evaluation(yaku_table_mine);
+	eval -= do_evaluation(yaku_table_enemy);
+
+//	card_vec enemy_te(48, 0);
+//	card_vec yama(48, 0);
+//	int _try = 100;
+//	for(int i = 0; i < _try; i++){
+//		set_zero(enemy_te);
+//		set_zero(yama);
+//		guess_enemy_te(yama_enemy_te, yama_te, yama, enemy_te, enemy_te_amount);
+//	}
+	//return (double)yaku_calculate(yaku_table_mine);
+
+	return eval;
 }
 
 

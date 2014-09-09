@@ -5,31 +5,49 @@ using namespace std;
 
 void init_rules();
 
-void init_cards(vector<int>&, vector<int>& ,vector<int>&,
-                vector<int>&, vector<int>&, vector<int>&);
+void init_cards(card_vec&, card_vec& ,card_vec&,
+                card_vec&, card_vec&, card_vec&);
 
-void deal_cards(vector<int>&, vector<int>& ,vector<int>&,
-                vector<int>&, vector<int>&, vector<int>&);
+void deal_cards(card_vec&, card_vec& ,card_vec&,
+                card_vec&, card_vec&, card_vec&);
 
-void move(vector<int>&, vector<int>&, int);
+void move(card_vec&, card_vec&, int);
 
-void random_move(vector<int>&, vector<int>&, int);
+void random_move(card_vec&, card_vec&, int);
 
-void random_move(vector<int>&, vector<int>&);
+void random_move(card_vec&, card_vec&);
 
-int random_choose(vector<int>&);
+void random_move_except(card_vec&, card_vec&, int, month_vec&);
 
-void set_zero(vector<int>&, int);
+int random_choose(card_vec&);
 
-void set_one(vector<int>&, int);
+void set_zero(card_vec&, int);
 
-void set_two(vector<int>&, int);
+void set_one(card_vec&, int);
 
-int card_amount(vector<int>&);
+void set_two(card_vec&, int);
 
-void koi_koi(vector<int>&);
+void set_zero(card_vec&);
+
+void set_one(card_vec&);
+
+void set_two(card_vec&);
+
+int card_amount(card_vec&);
+
+void koi_koi(card_vec&);
+
+int get_month(int);
 
 bool is_same_month(int, int);
 
-vector<int> find_same_month(int, vector<int>&);
+card_vec find_same_month(int, card_vec&);
+
+card_vec get_yama_enemy_te(card_vec &, card_vec &, card_vec &, card_vec &);
+
+void guess_enemy_te(card_vec, card_vec&, card_vec&, card_vec&, int);
+
+
+
+
 

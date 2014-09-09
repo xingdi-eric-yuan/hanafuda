@@ -6,6 +6,7 @@
 #include "ai.h"
 #include "romaji.h"
 #include "yaku_calculate.h"
+#include "do_evaluation.h"
 #include "helper.h"
 
 #define elif else if

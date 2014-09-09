@@ -38,8 +38,8 @@ void init_rules(){
 
 }
 
-void init_cards(vector<int>& yama, vector<int>& te_1 ,vector<int>& te_2,
-                vector<int>& yaku_table_1, vector<int>& yaku_table_2, vector<int>& ba){
+void init_cards(card_vec& yama, card_vec& te_1 ,card_vec& te_2,
+                card_vec& yaku_table_1, card_vec& yaku_table_2, card_vec& ba){
 
     for(int i = 0; i < yama.size(); i++){
         yama[i] = 1;
@@ -51,22 +51,22 @@ void init_cards(vector<int>& yama, vector<int>& te_1 ,vector<int>& te_2,
     }   
 }
 
-void deal_cards(vector<int>& yama, vector<int>& te_1 ,vector<int>& te_2,
-                vector<int>& yaku_table_1, vector<int>& yaku_table_2, vector<int>& ba){
+void deal_cards(card_vec& yama, card_vec& te_1 ,card_vec& te_2,
+                card_vec& yaku_table_1, card_vec& yaku_table_2, card_vec& ba){
 
 	random_move(yama, te_1, 8);
 	random_move(yama, te_2, 8);
 	random_move(yama, ba, 8);
 }
 
-void move(vector<int>& _from, vector<int>& _to, int which){
+void move(card_vec& _from, card_vec& _to, int which){
 	if(_from[which] exists){
 		_to[which] = 1;
 		_from[which] = 0;
 	}
 }
 
-void random_move(vector<int>& _from, vector<int>& _to, int amount){
+void random_move(card_vec& _from, card_vec& _to, int amount){
 	if(card_amount(_from) < amount) return;
 	int i = 0;
 	while(1){
@@ -81,7 +81,7 @@ void random_move(vector<int>& _from, vector<int>& _to, int amount){
 	}
 }
 
-void random_move(vector<int>& _from, vector<int>& _to){
+void random_move(card_vec& _from, card_vec& _to){
 	if(card_amount(_from) < 1) return;
 	while(1){
         int randomNum = rand() % _from.size();
@@ -93,7 +93,22 @@ void random_move(vector<int>& _from, vector<int>& _to){
 	}
 }
 
-int random_choose(vector<int>& _from){
+void random_move_except(card_vec& _from, card_vec& _to, int amount, month_vec except){
+	if(card_amount(_from) < amount) return;
+	int i = 0;
+	while(1){
+		if(i >= 8) break;
+        int randomNum = rand() % _from.size();
+        //cout<<"random number is "<<randomNum<<endl;
+        if(except[get_month(randomNum)] == 0 && _from[randomNum] exists){
+        	_from[randomNum] = 0;
+        	_to[randomNum] = 1;
+        	++ i;
+        }
+	}
+}
+
+int random_choose(card_vec& _from){
 	int res = -1;
 	if(card_amount(_from) < 1) return res;
 	while(1){
@@ -106,19 +121,31 @@ int random_choose(vector<int>& _from){
 	return res;
 }
 
-void set_zero(vector<int>& vec, int which){
+void set_zero(card_vec& vec, int which){
 	vec[which] = 0;
 }
 
-void set_one(vector<int>& vec, int which){
+void set_one(card_vec& vec, int which){
 	vec[which] = 1;
 }
 
-void set_two(vector<int>& vec, int which){
+void set_two(card_vec& vec, int which){
 	vec[which] = 2;
 }
 
-int card_amount(vector<int>& vec){
+void set_zero(card_vec& vec){
+	for(int i = 0; i < vec.size(); i++) vec[i] = 0;
+}
+
+void set_one(card_vec& vec){
+	for(int i = 0; i < vec.size(); i++) vec[i] = 1;
+}
+
+void set_two(card_vec& vec){
+	for(int i = 0; i < vec.size(); i++) vec[i] = 2;
+}
+
+int card_amount(card_vec& vec){
 	int res = 0;
 	for(int i = 0; i < vec.size(); i++){
 		if(vec[i] != 0) ++res;
@@ -126,7 +153,7 @@ int card_amount(vector<int>& vec){
 	return res;
 }
 
-void koi_koi(vector<int>& vec){
+void koi_koi(card_vec& vec){
 	for(int i = 0; i < vec.size(); i++){
 		if(vec[i] != 0) vec[i] = 1;
 	}
@@ -137,8 +164,8 @@ bool is_same_month(int a, int b){
 	else return false;
 }
 
-vector<int> find_same_month(int a, vector<int>& vec){
-	vector<int> res;
+card_vec find_same_month(int a, card_vec& vec){
+	card_vec res;
 	for(int i = 0; i < vec.size(); i++){
 		if(vec[i] exists && is_same_month(a, i)){
 			res.push_back(i);
@@ -147,11 +174,31 @@ vector<int> find_same_month(int a, vector<int>& vec){
 	return res;
 }
 
+card_vec get_yama_enemy_te(card_vec &te, card_vec &yaku_table_mine, card_vec &yaku_table_enemy, card_vec &ba){
 
+	card_vec res(48, 1);
+	for(int i = 0; i < 48; i++){
+		if(te[i] == 1) res[i] = 0;
+		if(yaku_table_mine[i] == 1) res[i] = 0;
+		if(yaku_table_enemy[i] == 1) res[i] = 0;
+		if(ba[i] == 1) res[i] = 0;
+	}
+	return res;
+}
 
+int get_month(int card){
+	return card / 4;
+}
 
+void guess_enemy_te(card_vec yama_te, card_vec &yama, card_vec& te, card_vec& yaku_table_enemy, int te_amount){
 
-
+	month_vec except(12, 0);
+	for(int i = 0; i < yaku_table_enemy.size(); i++){
+		if(yaku_table_enemy[i] exists) except[get_month(i)] = 1;
+	}
+	random_move_except(yama_te, te, te_amount, except);
+	yama = yama_te;
+}
 
 
 

@@ -21,6 +21,7 @@ void new_match(bool oya, int &Point_1, int &Point_2){
 	int p1 = 0;
 	int p2 = 0;
 	int cache = 0;
+	int enemy_te_amount = 0;
 	// use two AIs in turn.
 //	int test = ai1::dosomething(yama);
 //	cout<<test<<endl;
@@ -32,7 +33,9 @@ void new_match(bool oya, int &Point_1, int &Point_2){
 			break;
 		}
 		if(order == PLAYER_1){
+			enemy_te_amount = card_amount(te_2);
 			ai1 ai;
+			ai.enemy_te_amount = enemy_te_amount;
 			int which = ai.move_1(te_1, yaku_table_1, yaku_table_2, ba);
 			set_zero(te_1, which);
 			vector<int> same = find_same_month(which, ba);
@@ -84,7 +87,9 @@ void new_match(bool oya, int &Point_1, int &Point_2){
 				}
 			}
 		}else{
+			enemy_te_amount = card_amount(te_1);
 			ai1 ai;
+			ai.enemy_te_amount = enemy_te_amount;
 			int which = ai.move_1(te_2, yaku_table_2, yaku_table_1, ba);
 			set_zero(te_2, which);
 			vector<int> same = find_same_month(which, ba);

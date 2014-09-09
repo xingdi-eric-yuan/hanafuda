@@ -25,6 +25,12 @@ void set_one(vector<int>&, int);
 
 void set_two(vector<int>&, int);
 
+void set_zero(vector<int>&);
+
+void set_one(vector<int>&);
+
+void set_two(vector<int>&);
+
 int card_amount(vector<int>&);
 
 void koi_koi(vector<int>&);
@@ -32,4 +38,12 @@ void koi_koi(vector<int>&);
 bool is_same_month(int, int);
 
 vector<int> find_same_month(int, vector<int>&);
+
+vector<int> get_yama_enemy_te(vector<int> &, vector<int> &, vector<int> &, vector<int> &);
+
+void guess_enemy_te(vector<int>, vector<int>&, vector<int>&, int);
+
+
+
+
 
